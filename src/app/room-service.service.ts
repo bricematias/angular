@@ -1,22 +1,42 @@
 import { Injectable } from '@angular/core';
+import {iRoom} from "./shared/room.modele";
+import {BehaviorSubject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoomServiceService {
-  rooms  = [
+  public rooms: iRoom[]  = [
     {
-      id:'chambre1',
-      guest:''
+      id:1
     },
     {
-      id:'chambre2',
-      guest:'Brice'
+      id: 2
     },
     {
-      id:'chambre3',
-      guest:'Renaud'
+      id:3
     }
   ];
-  constructor() {}
+
+  public rooms$:BehaviorSubject<iRoom[]>;
+  constructor() {
+    this.rooms$ = new BehaviorSubject<iRoom[]>(this.rooms);
+  }
+  deleteRoom(roomId:number):void{
+    const index = this.rooms.findIndex((x) => x.id === roomId);
+    if (index > -1){
+      this.rooms.splice(index,1);
+      this.rooms$.next(this.rooms);
+    }
+  }
+  addRoom(): void{
+    const id = this.rooms.length === 0 ? 1 :
+      Math.max.apply(Math, this.rooms.map((room)=>{
+        return room.id;
+      })) +1;
+    this.rooms.push({
+      id
+    });
+    this.rooms$.next(this.rooms);
+  }
 }

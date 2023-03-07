@@ -1,12 +1,21 @@
-<p> Room id : {{ roomId }}</p>
-<span *ngIf="guest">Guest : {{guest}}</span>
---<br>
-<input [(ngModel)]="guest">
-<button [disabled]="isDoNotDisturb" (click)="knockKnock()">Knock Knock</button>
-<button (click)="switchDoNotDisturb()">Change etat</button>
-
-<app-fridge
-  [isAvailable]="guest.includes('Matias')"
-  (notify)="onFiddleBottleNotify($event)"
-></app-fridge>
-
+<div class="container">
+  <span>Room ID: {{roomId}}</span>
+  <div>
+    <button (click)="deleteRoom()">DELETE</button>
+  </div>
+  <div>
+    <button (click)="switchDoNotDisturb()">Switch knock knock</button>
+    <button [disabled]="isDoNotDisturb" (click)="knockKnock()">Knock Knock</button>
+  </div>
+  --
+  <div>
+    <span *ngIf="guest">Guest : {{guest}}</span>
+  </div>
+  <div>
+    <span>Set Guest : </span>
+    <input type="text" [(ngModel)]="guest">
+  </div>
+  <div>
+    <app-fridge [isAvailable]="guest.includes('ROQUES')" (iAmAlmostEmpty)="orderBottles($event)"></app-fridge>
+  </div>
+</div>

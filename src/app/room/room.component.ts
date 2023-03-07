@@ -1,16 +1,22 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {RoomServiceService} from "../room-service.service";
 
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.sass']
 })
-export class RoomComponent {
+export class RoomComponent implements OnInit{
 
-  @Input() roomId:string = "320 ";
-  @Input() guest:string = "";
+  @Input() roomId: number;
 
-  isDoNotDisturb:boolean=true;
+  isDoNotDisturb = true;
+  guest:string;
+  constructor(private roomService: RoomServiceService) {
+  }
+  ngOnInit():void {
+    this.guest = 'John DOE';
+  }
 
   switchDoNotDisturb(): void{
     this.isDoNotDisturb = !this.isDoNotDisturb;
@@ -19,9 +25,13 @@ export class RoomComponent {
     console.log(`Knock Knock ${this.guest}` );
   }
 
-  onFiddleBottleNotify = (bottleCount: number)=>{
-    alert(`Fridge only has ${bottleCount} left`);
-}
+  orderBottles(bottleCount):void{
+    console.log(`Alert quantity : ${bottleCount}`)
+  }
+  deleteRoom():void{
+    this.roomService.deleteRoom(this.roomId)
+  }
+
 
 
 }
