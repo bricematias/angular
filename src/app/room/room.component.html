@@ -1,0 +1,12 @@
+<p> Room id : {{ roomId }}</p>
+<span *ngIf="guest">Guest : {{guest}}</span>
+--<br>
+<input [(ngModel)]="guest">
+<button [disabled]="isDoNotDisturb" (click)="knockKnock()">Knock Knock</button>
+<button (click)="switchDoNotDisturb()">Change etat</button>
+
+<app-fridge
+  [isAvailable]="guest.includes('Matias')"
+  (notify)="onFiddleBottleNotify($event)"
+></app-fridge>
+
